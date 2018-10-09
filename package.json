@@ -18,10 +18,9 @@
   },
   "build": {
     "extraMetadata": {
-      "main": "./main.js"
+      "main": "./build/main.js"
     },
     "files": [
-      "./main.js",
       "build/*"
     ]
   },
