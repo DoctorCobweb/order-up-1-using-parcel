@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import logo from './assets/logo.svg';
-import './App.css';
+import './App.main.css';
 
-class App extends Component {
+class AppMain extends Component {
   render() {
     return (
       <div className="App">
@@ -11,11 +11,11 @@ class App extends Component {
           <h1 className="App-title">Welcome to React</h1>
         </header>
         <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
+          To get started, edit <code>src/App.main.js</code> and save to reload.
         </p>
       </div>
     );
   }
 }
 
-export default App;
+export default AppMain;

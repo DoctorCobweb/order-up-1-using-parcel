@@ -24,31 +24,57 @@ SerialPort.list()
 });
 
 // To avoid being garbage collected
-let mainWindow
+let winMain
+let win1
+let win2 
 
 app.on('ready', () => {
 
-    let mainWindow = new BrowserWindow({
+    let winMain = new BrowserWindow({
         width: 800,
         height: 600
     })
+    let win1 = new BrowserWindow({
+        width: 700,
+        height: 500
+    })
+    let win2 = new BrowserWindow({
+        width: 600,
+        height: 400
+    })
 
     console.log('__dirname', __dirname)
-    const startUrl = process.env.ELECTRON_START_URL || url.format({
-          pathname: path.join(__dirname, './index.html'),
+    const startUrl = process.env.ELECTRON_START_URL_APP_MAIN || url.format({
+          pathname: path.join(__dirname, './index.1.html'),
           protocol: 'file:',
           slashes: true
         });
 
-    mainWindow.loadURL(startUrl)
+    winMain.loadURL(startUrl)
+    win1.loadURL(startUrl)
+    win2.loadURL(startUrl)
 
-    mainWindow.webContents.openDevTools()
+    winMain.webContents.openDevTools()
+    win1.webContents.openDevTools()
+    win2.webContents.openDevTools()
 
-    mainWindow.on('closed', function () {
+    winMain.on('closed', function () {
         // Dereference the window object, usually you would store windows
         // in an array if your app supports multi windows, this is the time
         // when you should delete the corresponding element.
-        mainWindow = null
+        winMain = null
+    })
+    win1.on('closed', function () {
+        // Dereference the window object, usually you would store windows
+        // in an array if your app supports multi windows, this is the time
+        // when you should delete the corresponding element.
+        win1 = null
+    })
+    win2.on('closed', function () {
+        // Dereference the window object, usually you would store windows
+        // in an array if your app supports multi windows, this is the time
+        // when you should delete the corresponding element.
+        win2 = null
     })
 
 })
@@ -65,7 +91,13 @@ app.on('window-all-closed', function () {
 app.on('activate', function () {
     // On OS X it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
-    if (mainWindow === null) {
+    if (winMain === null) {
+        createWindow()
+    }
+    if (win1 === null) {
+        createWindow()
+    }
+    if (win2 === null) {
         createWindow()
     }
 });
