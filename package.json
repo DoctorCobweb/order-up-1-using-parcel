@@ -1,0 +1,51 @@
+{
+  "name": "parcel-reactjs-electron",
+  "version": "1.0.0",
+  "description": "A minimal React.js boilerplate with parcel as bundler",
+  "scripts": {
+    "dev:main": "parcel ./src/main-process/main.js --target electron",
+    "dev:renderer": "parcel ./src/renderer-process/index.html",
+    "dev:electron": "ELECTRON_START_URL=http://localhost:1234 electron ./dist/main",
+    "build:main": "parcel build ./src/main-process/main.js -d build --target electron --public-url ./",
+    "build:renderer": "parcel build ./src/renderer-process/index.html -d build --public-url ./",
+    "build:pack": "electron-builder --dir",
+    "build:electron": "electron-builder",
+
+    "start-dev": "ELECTRON_START_URL=http://localhost:1234 electron ./build/main.js",
+    "start": "electron ./build/main.js",
+    "pack": "electron-builder --dir",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "build": {
+    "extraMetadata": {
+      "main": "./main.js"
+    },
+    "files": [
+      "./main.js",
+      "build/*"
+    ]
+  },
+  "keywords": [
+    "parcel",
+    "react"
+  ],
+  "contributors": [
+    "Robin <wrobin@gmx.net> (https://www.robinwieruch.de)",
+    "Samppa Hynninen <samppa.hynninen@gmail.com>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "parcel-bundler": "^1.10.2",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "serialport": "^7.0.2"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "electron": "^3.0.3",
+    "electron-builder": "20.28.4",
+    "electron-reload": "^1.2.2"
+  }
+}
