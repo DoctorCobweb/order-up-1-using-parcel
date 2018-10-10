@@ -1,10 +1,3 @@
-// Basic init
-// const electron = require('electron')
-// const {app, BrowserWindow} = electron
-// const path = require('path');
-// const url = require('url');
-// const SerialPort = require('serialport');
-
 import { app, BrowserWindow } from 'electron'
 import path from 'path'
 import url from 'url';
@@ -12,11 +5,12 @@ import SerialPort from 'serialport'
 import log from 'electron-log'
 log.transports.file.level = 'info'
 
-// Let electron reloads by itself when webpack watches changes in ./app/
-if (process.env.ELECTRON_START_URL_APP_MAIN) {
+// Let electron reload by itself when webpack watches changes in
+if (process.env.ELECTRON_START_URL_APP_MAIN || process.env.ELECTRON_START_URL_APP_1) {
   require('electron-reload')(__dirname)
 }
 
+// checking to see if native dep. serialport is working
 SerialPort.list()
 .then(ports => {
   console.log('PORTS AVAILABLE: ', ports);
@@ -28,7 +22,6 @@ SerialPort.list()
 // To avoid being garbage collected
 let winMain
 let win1
-let win2 
 
 app.on('ready', () => {
 
@@ -40,13 +33,6 @@ app.on('ready', () => {
         width: 700,
         height: 500
     })
-    const blah = url.format({
-        pathname: path.join(__dirname, 'appMain/index.main.html'),
-        protocol: 'file:',
-        slashes: true
-    })
-    console.log('blah: ', blah)
-    log.info('blah url: ',blah)
 
     const startUrlAppMain = process.env.ELECTRON_START_URL_APP_MAIN || url.format({
           pathname: path.join(__dirname, 'appMain/index.main.html'),
@@ -58,8 +44,9 @@ app.on('ready', () => {
           protocol: 'file:',
           slashes: true
     });
-    console.log('__dirname', __dirname)
-    console.log(process.env.ELECTRON_START_URL_APP_MAIN)
+    log.info('__dirname: ',__dirname)
+    log.info('process.env.ELECTRON_START_URL_APP_MAIN', process.env.ELECTRON_START_URL_APP_MAIN)
+    log.info('process.env.ELECTRON_START_URL_APP_1', process.env.ELECTRON_START_URL_APP_1)
 
     winMain.loadURL(startUrlAppMain)
     win1.loadURL(startUrlApp1)
@@ -67,13 +54,13 @@ app.on('ready', () => {
     winMain.webContents.openDevTools()
     win1.webContents.openDevTools()
 
-    winMain.on('closed', function () {
+    winMain.on('closed', () => {
         // Dereference the window object, usually you would store windows
         // in an array if your app supports multi windows, this is the time
         // when you should delete the corresponding element.
         winMain = null
     })
-    win1.on('closed', function () {
+    win1.on('closed', () => {
         // Dereference the window object, usually you would store windows
         // in an array if your app supports multi windows, this is the time
         // when you should delete the corresponding element.
@@ -82,7 +69,7 @@ app.on('ready', () => {
 })
 
 // Quit when all windows are closed.
-app.on('window-all-closed', function () {
+app.on('window-all-closed', () => {
     // On OS X it is common for applications and their menu bar
     // to stay active until the user quits explicitly with Cmd + Q
     if (process.platform !== 'darwin') {
@@ -90,16 +77,13 @@ app.on('window-all-closed', function () {
     }
 });
 
-app.on('activate', function () {
+app.on('activate', () => {
     // On OS X it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (winMain === null) {
         createWindow()
     }
     if (win1 === null) {
-        createWindow()
-    }
-    if (win2 === null) {
         createWindow()
     }
 });
