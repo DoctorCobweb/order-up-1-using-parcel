@@ -1,5 +1,5 @@
 {
-  "name": "order-up-1",
+  "name": "order-up-1-parcel-react-electron",
   "version": "1.0.0",
   "description": "Customization using as start then project: parcel-react-electron",
   "scripts": {
@@ -7,15 +7,13 @@
     "dev:renderer": "parcel src/renderer-process/appMain/index.main.html src/renderer-process/app1/index.1.html -d dist/",
     "dev:electron": "ELECTRON_START_URL_APP_MAIN=http://localhost:1234/appMain/index.main.html ELECTRON_START_URL_APP_1=http://localhost:1234/app1/index.1.html electron ./dist/main.js",
     "build:main": "parcel build ./src/main-process/main.js -d build/ --target electron",
-    "build:rendererAppMain": "parcel build ./src/renderer-process/appMain/index.main.html -d build/appMain",
-    "build:rendererApp1": "parcel build ./src/renderer-process/app1/index.1.html -d build/app1",
-    "build:rendererBlah": "parcel build ./src/renderer-process/appMain/index.main.html ./src/renderer-process/app1/index.1.html -d build/ --public-url ./../",
-    "build:pack": "electron-builder --dir",
+    "build:renderer": "parcel build ./src/renderer-process/appMain/index.main.html ./src/renderer-process/app1/index.1.html -d build/ --public-url ./../",
     "build:electron": "electron-builder",
+    "build:pack": "electron-builder --dir",
     "postinstall": "electron-builder install-app-deps"
   },
   "build": {
-    "appId": "blahblahblah",
+    "appId": "au.com.andretrosky.orderup1parcelreactelectron",
     "extraMetadata": {
       "main": "./build/main.js"
     },
