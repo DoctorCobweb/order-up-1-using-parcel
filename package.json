@@ -1,39 +1,44 @@
 {
-  "name": "parcel-reactjs-electron",
+  "name": "order-up-1",
   "version": "1.0.0",
-  "description": "A minimal React.js boilerplate with parcel as bundler",
+  "description": "Customization using as start then project: parcel-react-electron",
   "scripts": {
-    "dev:main": "parcel ./src/main-process/main.js --target electron",
-    "dev:renderer": "parcel ./src/renderer-process/appMain/index.main.html",
-    "dev:electron": "ELECTRON_START_URL_APP_MAIN=http://localhost:1234/index.main.html electron ./dist/main",
-    "build:main": "parcel build ./src/main-process/main.js -d build --target electron --public-url ./",
-    "build:renderer": "parcel build ./src/renderer-process/appMain/index.main.html -d build --public-url ./",
+    "dev:main": "parcel src/main-process/main.js --target electron",
+    "dev:renderer": "parcel src/renderer-process/appMain/index.main.html src/renderer-process/app1/index.1.html -d dist/",
+    "dev:electron": "ELECTRON_START_URL_APP_MAIN=http://localhost:1234/appMain/index.main.html ELECTRON_START_URL_APP_1=http://localhost:1234/app1/index.1.html electron ./dist/main.js",
+    "build:main": "parcel build ./src/main-process/main.js -d build/ --target electron",
+    "build:rendererAppMain": "parcel build ./src/renderer-process/appMain/index.main.html -d build/appMain",
+    "build:rendererApp1": "parcel build ./src/renderer-process/app1/index.1.html -d build/app1",
+    "build:rendererBlah": "parcel build ./src/renderer-process/appMain/index.main.html ./src/renderer-process/app1/index.1.html -d build/ --public-url ./../",
     "build:pack": "electron-builder --dir",
     "build:electron": "electron-builder",
-
-    "start-dev": "ELECTRON_START_URL=http://localhost:1234 electron ./build/main.js",
-    "start": "electron ./build/main.js",
-    "pack": "electron-builder --dir",
     "postinstall": "electron-builder install-app-deps"
   },
   "build": {
+    "appId": "blahblahblah",
     "extraMetadata": {
       "main": "./build/main.js"
     },
     "files": [
-      "build/*"
-    ]
+      "build/**/*"
+    ],
+    "directories": {
+      "output": "build"
+    }
   },
   "keywords": [
     "parcel",
-    "react"
+    "react",
+    "electron"
   ],
   "contributors": [
+    "der <andretrosky@gmail.com>",
     "Robin <wrobin@gmx.net> (https://www.robinwieruch.de)",
     "Samppa Hynninen <samppa.hynninen@gmail.com>"
   ],
   "license": "MIT",
   "dependencies": {
+    "electron-log": "2.2.17",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "serialport": "^7.0.2"
@@ -42,6 +47,7 @@
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
+    "concurrently": "^4.0.1",
     "electron": "^3.0.3",
     "electron-builder": "20.28.4",
     "electron-reload": "^1.2.2",

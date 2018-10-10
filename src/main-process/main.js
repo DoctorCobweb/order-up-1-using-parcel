@@ -9,9 +9,11 @@ import { app, BrowserWindow } from 'electron'
 import path from 'path'
 import url from 'url';
 import SerialPort from 'serialport'
+import log from 'electron-log'
+log.transports.file.level = 'info'
 
 // Let electron reloads by itself when webpack watches changes in ./app/
-if (process.env.ELECTRON_START_URL) {
+if (process.env.ELECTRON_START_URL_APP_MAIN) {
   require('electron-reload')(__dirname)
 }
 
@@ -38,25 +40,32 @@ app.on('ready', () => {
         width: 700,
         height: 500
     })
-    let win2 = new BrowserWindow({
-        width: 600,
-        height: 400
+    const blah = url.format({
+        pathname: path.join(__dirname, 'appMain/index.main.html'),
+        protocol: 'file:',
+        slashes: true
     })
+    console.log('blah: ', blah)
+    log.info('blah url: ',blah)
 
-    console.log('__dirname', __dirname)
-    const startUrl = process.env.ELECTRON_START_URL_APP_MAIN || url.format({
-          pathname: path.join(__dirname, './index.1.html'),
+    const startUrlAppMain = process.env.ELECTRON_START_URL_APP_MAIN || url.format({
+          pathname: path.join(__dirname, 'appMain/index.main.html'),
           protocol: 'file:',
           slashes: true
-        });
+    });
+    const startUrlApp1 = process.env.ELECTRON_START_URL_APP_1 || url.format({
+          pathname: path.join(__dirname, 'app1/index.1.html'),
+          protocol: 'file:',
+          slashes: true
+    });
+    console.log('__dirname', __dirname)
+    console.log(process.env.ELECTRON_START_URL_APP_MAIN)
 
-    winMain.loadURL(startUrl)
-    win1.loadURL(startUrl)
-    win2.loadURL(startUrl)
+    winMain.loadURL(startUrlAppMain)
+    win1.loadURL(startUrlApp1)
 
     winMain.webContents.openDevTools()
     win1.webContents.openDevTools()
-    win2.webContents.openDevTools()
 
     winMain.on('closed', function () {
         // Dereference the window object, usually you would store windows
@@ -70,13 +79,6 @@ app.on('ready', () => {
         // when you should delete the corresponding element.
         win1 = null
     })
-    win2.on('closed', function () {
-        // Dereference the window object, usually you would store windows
-        // in an array if your app supports multi windows, this is the time
-        // when you should delete the corresponding element.
-        win2 = null
-    })
-
 })
 
 // Quit when all windows are closed.
